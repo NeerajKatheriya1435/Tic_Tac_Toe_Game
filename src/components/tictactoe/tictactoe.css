@@ -1,0 +1,52 @@
+.container {
+    /* border: 2px solid gold; */
+    display: flex;
+    flex-direction: column;
+    /* width: 50vh; */
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.mainBox {
+    /* border: 2px solid rgb(226, 241, 241); */
+    height: 40vh;
+    width: 25vw;
+    margin: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading {
+    color: antiquewhite;
+}
+
+.row {
+    height: 30%;
+    width: 90%;
+    /* border: 2px solid khaki; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box {
+    margin: 3px;
+    border: 2px solid red;
+    height: 90%;
+    width: 30%;
+    font-size: 25px;
+}
+
+
+.btn {
+    border: 2px solid cadetblue;
+    background-color: aquamarine;
+    height: 35px;
+    width: 300px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    margin: 3px;
+}
