@@ -4,24 +4,36 @@ import "./tictactoe.css";
 const Tictac = () => {
     const [board, setBoard] = useState(Array(9).fill(null));
     const [val, setVal] = useState(true);
-    const scoreRef = useRef(null)
+    const [winner, setWinner] = useState(null);
+    const scoreRef = useRef(null);
 
     const renderSquare = (index) => {
         return (
-            <button className='box' onClick={() => handleClick(index)}>{board[index]}</button>
-        )
-    }
+            <button className='box' onClick={() => handleClick(index)}>
+                {board[index]}
+            </button>
+        );
+    };
+
     const handleClick = (index) => {
-        if (board[index] != null) {
+        if (board[index] !== null || winner) {
             return;
         }
         const newBoard = [...board];
         newBoard[index] = val ? "X" : "O";
         setBoard(newBoard);
         setVal(!val);
-    }
 
-    const checkWinner = () => {
+        // Check winner after move
+        const gameWinner = checkWinner(newBoard);
+        if (gameWinner) {
+            setWinner(gameWinner);
+        } else if (newBoard.every(cell => cell !== null)) {
+            setWinner("Draw");
+        }
+    };
+
+    const checkWinner = (currBoard) => {
         const combination = [
             [0, 1, 2],
             [3, 4, 5],
@@ -31,25 +43,24 @@ const Tictac = () => {
             [2, 5, 8],
             [0, 4, 8],
             [2, 4, 6]
-        ]
+        ];
         for (let i = 0; i < combination.length; i++) {
             const [a, b, c] = combination[i];
-            console.log(board[a], board[b], board[c])
-            if (board[a] !== null && board[a] === board[b] && board[a] === board[b] && board[a] === board[c]) {
-                return board[a];
+            if (currBoard[a] !== null && currBoard[a] === currBoard[b] && currBoard[a] === currBoard[c]) {
+                return currBoard[a];
             }
         }
-        return false;
-    }
+        return null;
+    };
 
-    const winner = checkWinner();
     const handleReset = () => {
-        setBoard(Array(9).fill(null))
+        setBoard(Array(9).fill(null));
+        setVal(true);
+        setWinner(null);
         if (scoreRef.current !== null) {
-            scoreRef.current.style.display = "none"
+            scoreRef.current.style.display = "block";
         }
-    }
-
+    };
 
     return (
         <div className="container">
@@ -71,10 +82,14 @@ const Tictac = () => {
                     {renderSquare(8)}
                 </div>
             </div>
-            {winner ? (<button className="btn" ref={scoreRef}>{winner} is winner of this Game</button>) : (<></>)}
+            {winner && (
+                <button className="btn" ref={scoreRef}>
+                    {winner === "Draw" ? "It's a Draw!" : `${winner} is the winner of this Game`}
+                </button>
+            )}
             <button className="btn" onClick={handleReset}>Reset Board</button>
         </div>
-    )
-}
+    );
+};
 
-export default Tictac
+export default Tictac;
